@@ -8,18 +8,25 @@ namespace ForwardList
 {
     class Element
     {
-        public int Data { get; set; }
-        public Element pNext { get; set; }
-        public Element(int Data, Element pNext = null)
-        {
-            this.Data = Data;
-            this.pNext = pNext;
-            Console.WriteLine($"EConstructor:{GetHashCode()}");
-        }
+		public int Data { get; set; }
+		public Element pNext { get; set; }
 
-        ~Element()
-        {
-			Console.WriteLine($"EDestructor:{GetHashCode()}");
+		public Element(int data)
+		{
+			Data = data;
+			pNext = null;
+			Console.WriteLine($"EConstructor:\t{GetHashCode()}");
+		}
+		public Element(int data, Element pNext)
+		{
+			Data = data;
+			this.pNext = pNext;
+			Console.WriteLine($"EConstructor:\t{GetHashCode()}");
+		}
+
+		~Element()
+		{
+			Console.WriteLine($"EDestructor:\t{GetHashCode()}");
 		}
 	}
 }

@@ -10,44 +10,40 @@ namespace ForwardList
     {
         static void Main(string[] args)
         {
-            Console.Write("Введите размер списка ttt: ");
-            int n = Convert.ToInt32(Console.ReadLine());
+			ForwardList stack = new ForwardList();
+			stack.Push(3);
+			stack.Push(5);
+			stack.Push(8);
+			stack.Push(13);
 
-            Random rand = new Random(0);
+			Console.ForegroundColor = ConsoleColor.Magenta;
+			Console.WriteLine("\nСодержимое стека:");
+			stack.Print();
+			Console.ResetColor();
 
-            ForwardList list = new ForwardList();
-            for (int i = 0; i < n; i++)
-            {
-                list.PushFront(rand.Next(100));
-                //list.PushBack(rand.Next(100));
-            }
-            //list.PushBack(234);
-            list.Print();
-            //list.PopBack();
-            bool inputError;
-            do
-            {
-				inputError = false;
-                //repeat;
-				Console.Write("Введите индекс добавляемого элемента:");
-                int index = Convert.ToInt32(Console.ReadLine());
-			    Console.Write("Введите значение добавляемого элемента:");
-			    int value = Convert.ToInt32(Console.ReadLine());
-                //list.Length = 123;
-                try
-                {
-                    list.Insert(value, index);
-                }
-                catch (Exception ex)
-                {
-				    Console.WriteLine(ex.Message);
-					Console.WriteLine("\n---------------------------------\n");
-				    //goto repeat;
-				    inputError = true;
-			    }
-            }while (inputError);
-			
-            list.Print();
+			Console.ForegroundColor = ConsoleColor.Yellow;
+			Console.WriteLine($"\nНачальный (первый) элемент стека: \n{stack.Peek()}");
+			Console.ResetColor();
+
+			Console.ForegroundColor = ConsoleColor.Cyan;
+			Console.WriteLine($"\nУдалён элемент: \n{stack.Pop()}");
+			Console.WriteLine($"\nУдалён элемент: \n{stack.Pop()}");
+			Console.ResetColor();
+
+			Console.ForegroundColor = ConsoleColor.DarkRed;
+			Console.WriteLine("\nСодержимое стека после удаления элементов:");
+			stack.Print();
+			Console.ResetColor();
+
+			Console.ForegroundColor = ConsoleColor.Blue;
+			Console.WriteLine("\nИдёт очищение стека...");
+			stack.Clear();
+			Console.ResetColor();
+
+			Console.WriteLine("\nСодержимое стека после очистки:");
+			stack.Print();
+
+			Console.ReadKey();
 		}
     }
 }

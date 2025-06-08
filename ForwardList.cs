@@ -8,129 +8,81 @@ namespace ForwardList
 {
     class ForwardList
     {
-        Element Head { get; set; }
+		Element Head { get; set; }
 
 		public int Length { get; private set; }
-		public ForwardList()
-        {
-            Head = null;
-            Console.WriteLine($"LConstructor:\t{GetHashCode()}");
-        }
 
-        ~ForwardList()
-        {
-            Head = null;
+		public ForwardList()
+		{
+			Head = null;
+			Length = 0;
+			Console.WriteLine($"LConstructor:\t{GetHashCode()}");
+		}
+
+		~ForwardList()
+		{
+			Head = null;
 			Length = 0;
 			Console.WriteLine($"LDestructor:\t{GetHashCode()}");
 		}
 
 		public void Clear()
 		{
-			Head = null;
-			Length = 0;
+			while (Head != null)
+			{
+				PopFront();
+			}
 		}
 
-		//				Adding Elements:
-		public void PushFront(int Data)
-        {
-			//1) Создаём новый элемент:
-			//Element New = new Element(Data);
-
-			//2) Пристыковываем новый элемент к началу списка:
-			//New.pNext = Head;
-
-			//3) Смещаем голову на новый элемент:
-			//Head = New;
-
+		public void Push(int Data)//добавление элементов с начала стека
+		{
 			Head = new Element(Data, Head);
 			Length++;
 		}
-        public void PushBack(int Data)
-        {
-			//0) Проверяем, есть ли в списке элементы:
+
+		public int? Pop() //int? означает, что метод Pop() может возвращать либо целочисленное значение (представляющее данные,
+						  //которые были извлечены из стека),
+						  //либо значение null (представляющее тот факт, что стек был пуст и извлекать было нечего).
+		{
 			if (Head == null)
 			{
-				PushFront(Data);
-				return;
+				return null;
 			}
 
-			//1) Дойти до конца списка:
-			Element Temp = Head; //iterator
-            while (Temp.pNext != null) Temp = Temp.pNext;
-
-			//2) Создаём добавляемый элемент
-			//Element New = new Element(Data);
-
-			//3) Добавляем элемент в список
-			//Temp.pNext = New;
-
-			Temp.pNext = new Element(Data);
-			Length++;
+			int poppedData = Head.Data;
+			Head = Head.pNext;  // удаление элемента из списка, память регулируется с помощью GC
+			Length--;
+			return poppedData;
 		}
 
-		public void Insert(int Data, int Index)
+		public int? Peek()//возвращает элемент из начала списка
 		{
-			//0) Проверяем выход за пределы списка:Add commentMore actions
-			if (Index > Length || Index < 0)
+			if (Head == null)
 			{
-				//Console.WriteLine($"Error: Выход за пределы списка");
-				//return;
-				throw new IndexOutOfRangeException("Error: Выход за пределы списка");
+				return null;
 			}
 
-			if (Index == 0)
-			{
-				PushFront(Data);
-				return;
-			}
-
-			//1) Доходим до нужного элемента:
-			Element Temp = Head;
-			for (int i = 0; i < Index - 1; i++)
-			{
-				//if (Temp.pNext == null) break;
-				Temp = Temp.pNext;
-			}
-			//2) Добавляем элемент в список:
-			Temp.pNext = new Element(Data, Temp.pNext);
-			Length++;
+			return Head.Data;
 		}
 
-		// Removing elements:
+		public void Print()
+		{
+			for (Element Temp = Head; Temp != null; Temp = Temp.pNext)
 
-		public void PopFront()
+				Console.Write($"{Temp.Data}\t");
+			Console.WriteLine();
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.WriteLine($"\nКоличество элементов списка: \n{Length}");
+			Console.ResetColor();
+		}
+
+		private void PopFront() // вспомогательная функция для очистки списка
 		{
 			if (Head != null)
 			{
-				Head = Head.pNext;  //Исключаем элемент из списка, из памяти он будет удплен GarbageCollector-ом
+				Head = Head.pNext;   // удаление элемента из списка, память регулируется с помощью GC
 				Length--;
 			}
 		}
-
-		public void PopBack()
-		{
-			//0) Проверяем, есть ли в списке элементы:Add commentMore actions
-			if (Head == null || Head.pNext == null)
-			{
-				PopFront();
-				return;
-			}
-
-			//1)Доходим до конца списка:
-			Element Temp = Head;
-			while (Temp.pNext.pNext != null) Temp = Temp.pNext;
-
-			//2)Исключаем элемент из списка:
-			Temp.pNext = null;
-			Length--;
-		}
-		public void Print()
-        {
-            for(Element Temp = Head; Temp != null; Temp=Temp.pNext)
-				
-                Console.Write($"{Temp.Data}\t");
-			Console.WriteLine();
-			Console.WriteLine($"Количество элементов списка: {Length}");
-		}
-    }
+	}
 }
