@@ -10,7 +10,7 @@ namespace ForwardList
     {
         static void Main(string[] args)
         {
-            Console.Write("Введите размер списка : ");
+            Console.Write("Введите размер списка ttt: ");
             int n = Convert.ToInt32(Console.ReadLine());
 
             Random rand = new Random(0);
